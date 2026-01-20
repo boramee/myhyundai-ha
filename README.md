@@ -1,14 +1,76 @@
-# MyHyundai Home Assistant Integration
+# MyHyundai (unofficial) Home Assistant integration
 
-This repository contains a custom Home Assistant integration for MyHyundai
-(Korea). The integration is located in:
+This is a minimal custom integration that uses the
+`hyundai-kia-connect-api` library to read vehicle status and trigger
+remote start.
 
-- `custom_components/myhyundai`
+## Requirements
 
-## Install
+- MyHyundai (Korea) account with username/password login
+- Home Assistant with custom component support
+- OTP/2FA accounts are not supported in this version
 
-1. Copy `custom_components/myhyundai` into your Home Assistant config folder.
-2. Restart Home Assistant.
-3. Add the **MyHyundai** integration from **Settings → Devices & Services**.
+## Install (git clone into custom_components)
 
-See `custom_components/myhyundai/README.md` for details.
+```bash
+cd /config/custom_components
+git clone git@github.com:boramee/myhyundai-ha.git myhyundai
+```
+
+Then restart Home Assistant.
+
+## Install (manual copy)
+
+1. Copy this repository into a temporary folder.
+2. Copy the files into `custom_components/myhyundai`.
+3. Restart Home Assistant.
+
+## Setup
+
+1. Go to **Settings → Devices & Services → Add Integration** and search
+   for **MyHyundai**.
+2. Enter your MyHyundai email and password.
+3. If your account requires a vehicle PIN for remote commands, enter it
+   during setup.
+
+If you have more than one vehicle, the setup will prompt you to select
+which vehicle to add.
+
+## Notes for Korea (MyHyundai)
+
+The `hyundai-kia-connect-api` library does not expose a dedicated Korea
+region selector. This integration uses the library's "India" region as a
+fallback because the API endpoints are compatible for some accounts.
+If login fails, the library may not currently support your account.
+
+## Entities
+
+### Sensors
+
+- Odometer
+- Total driving range
+- Fuel level
+- Car battery
+- EV battery (if supported)
+- Air temperature
+- Last updated
+
+### Binary sensors
+
+- Engine running
+- Hood open
+- Trunk open
+
+### Lock
+
+- Door lock (lock/unlock)
+
+### Buttons
+
+- Remote start
+- Remote stop
+
+## Remote start defaults
+
+Remote start uses the API defaults for temperature and duration. If you
+need to change defaults, edit constants in `const.py`.
