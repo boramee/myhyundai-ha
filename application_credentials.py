@@ -16,6 +16,7 @@ from homeassistant.components.application_credentials import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import config_entry_oauth2_flow
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.network import NoURLAvailableError, get_url
 
 from .const import DOMAIN, OAUTH2_AUTHORIZE_URL, OAUTH2_TOKEN_URL
 
@@ -24,6 +25,14 @@ _LOGGER = logging.getLogger(__name__)
 
 class MyHyundaiAuthImplementation(AuthImplementation):
     """OAuth2 implementation using HTTP Basic auth for token requests."""
+
+    @property
+    def redirect_uri(self) -> str:
+        try:
+            base = get_url(self.hass, prefer_external=True)
+        except NoURLAvailableError:
+            return config_entry_oauth2_flow.async_get_redirect_uri(self.hass)
+        return f"{base}/auth/external/callback"
 
     async def _token_request(self, data: dict) -> dict:
         session = async_get_clientsession(self.hass)
