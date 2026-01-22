@@ -25,6 +25,7 @@ class MyHyundaiSensorDescription(SensorEntityDescription):
 SENSOR_DESCRIPTIONS: tuple[MyHyundaiSensorDescription, ...] = (
     MyHyundaiSensorDescription(
         key="odometer",
+        name="Odometer",
         translation_key="odometer",
         device_class=SensorDeviceClass.DISTANCE,
         value_fn=lambda vehicle: vehicle.odometer,
@@ -32,6 +33,7 @@ SENSOR_DESCRIPTIONS: tuple[MyHyundaiSensorDescription, ...] = (
     ),
     MyHyundaiSensorDescription(
         key="total_driving_range",
+        name="Total driving range",
         translation_key="total_driving_range",
         device_class=SensorDeviceClass.DISTANCE,
         value_fn=lambda vehicle: vehicle.total_driving_range,
@@ -39,6 +41,7 @@ SENSOR_DESCRIPTIONS: tuple[MyHyundaiSensorDescription, ...] = (
     ),
     MyHyundaiSensorDescription(
         key="ev_battery_percentage",
+        name="EV battery",
         translation_key="ev_battery",
         device_class=SensorDeviceClass.BATTERY,
         native_unit_of_measurement=PERCENTAGE,
@@ -46,6 +49,7 @@ SENSOR_DESCRIPTIONS: tuple[MyHyundaiSensorDescription, ...] = (
     ),
     MyHyundaiSensorDescription(
         key="last_updated_at",
+        name="Last updated",
         translation_key="last_updated",
         device_class=SensorDeviceClass.TIMESTAMP,
         value_fn=lambda vehicle: vehicle.last_updated_at,
@@ -65,6 +69,8 @@ async def async_setup_entry(
             MyHyundaiSensorEntity(coordinator, vehicle.id, description)
             for vehicle in vehicles
             for description in SENSOR_DESCRIPTIONS
+            if description.value_fn(vehicle) is not None
+            or description.key in {"odometer", "total_driving_range", "last_updated_at"}
         ]
     )
 

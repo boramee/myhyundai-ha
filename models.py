@@ -10,6 +10,7 @@ class MyHyundaiVehicle:
     name: str | None = None
     model: str | None = None
     vin: str | None = None
+    car_type: str | None = None
     odometer: float | None = None
     odometer_unit: str | None = None
     total_driving_range: float | None = None

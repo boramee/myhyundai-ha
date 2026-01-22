@@ -23,48 +23,56 @@ class MyHyundaiBinarySensorDescription(BinarySensorEntityDescription):
 BINARY_SENSOR_DESCRIPTIONS: tuple[MyHyundaiBinarySensorDescription, ...] = (
     MyHyundaiBinarySensorDescription(
         key="low_fuel_warning",
+        name="Low fuel warning",
         translation_key="low_fuel_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.low_fuel_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="tire_pressure_warning",
+        name="Tire pressure warning",
         translation_key="tire_pressure_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.tire_pressure_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="lamp_wire_warning",
+        name="Lamp wire warning",
         translation_key="lamp_wire_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.lamp_wire_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="smart_key_battery_warning",
+        name="Smart key battery warning",
         translation_key="smart_key_battery_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.smart_key_battery_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="washer_fluid_warning",
+        name="Washer fluid warning",
         translation_key="washer_fluid_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.washer_fluid_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="brake_oil_warning",
+        name="Brake oil warning",
         translation_key="brake_oil_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.brake_oil_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="engine_oil_warning",
+        name="Engine oil warning",
         translation_key="engine_oil_warning",
         device_class=BinarySensorDeviceClass.PROBLEM,
         value_fn=lambda vehicle: vehicle.engine_oil_warning,
     ),
     MyHyundaiBinarySensorDescription(
         key="ev_battery_is_charging",
+        name="EV battery charging",
         translation_key="ev_battery_charging",
         value_fn=lambda vehicle: vehicle.ev_battery_is_charging,
     ),
@@ -83,6 +91,7 @@ async def async_setup_entry(
             MyHyundaiBinarySensorEntity(coordinator, vehicle.id, description)
             for vehicle in vehicles
             for description in BINARY_SENSOR_DESCRIPTIONS
+            if description.value_fn(vehicle) is not None
         ]
     )
 

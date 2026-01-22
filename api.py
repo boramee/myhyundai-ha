@@ -57,15 +57,16 @@ class MyHyundaiApi:
                 id=vehicle_id,
                 name=name,
                 model=model,
+                car_type=car.get("carType"),
             )
 
-            await self._populate_vehicle_status(session, vehicle, car.get("carType"))
+            await self._populate_vehicle_status(session, vehicle)
             vehicles[vehicle.id] = vehicle
 
         return vehicles
 
     async def _populate_vehicle_status(
-        self, session: config_entry_oauth2_flow.OAuth2Session, vehicle: MyHyundaiVehicle, car_type: str | None
+        self, session: config_entry_oauth2_flow.OAuth2Session, vehicle: MyHyundaiVehicle
     ) -> None:
         dte = await self._request_json(
             session,
@@ -92,7 +93,7 @@ class MyHyundaiApi:
                 vehicle.odometer_unit = DISTANCE_UNITS.get(latest.get("unit"))
                 self._update_last_updated(vehicle, latest.get("timestamp"))
 
-        if car_type in {"EV", "PHEV", "FCEV"}:
+        if vehicle.car_type in {"EV", "PHEV"}:
             battery = await self._request_json(
                 session,
                 "GET",
