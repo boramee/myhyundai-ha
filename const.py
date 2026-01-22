@@ -18,4 +18,7 @@ DEFAULT_UPDATE_INTERVAL = timedelta(minutes=5)
 OAUTH2_AUTHORIZE_URL = "https://prd.kr-ccapi.hyundai.com/api/v1/user/oauth2/authorize"
 OAUTH2_TOKEN_URL = "https://prd.kr-ccapi.hyundai.com/api/v1/user/oauth2/token"
 
+USER_API_BASE = "https://prd.kr-ccapi.hyundai.com/api/v1"
+DATA_API_BASE = "https://dev.kr-ccapi.hyundai.com/api/v1"
+
 MANUFACTURER = "Hyundai"

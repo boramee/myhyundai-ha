@@ -29,6 +29,7 @@ Then restart Home Assistant.
 
 1. Configure the OAuth Redirect URL in the MyHyundai developer console:
    `https://<your-ha-domain>/auth/external/callback`
+2. Configure the Data API Redirect URL for consent callbacks (same base is OK).
 2. In Home Assistant, add **Application Credentials** for MyHyundai:
    **Settings → Devices & Services → Application Credentials → Add**
 3. Add the **MyHyundai** integration:
@@ -41,23 +42,41 @@ Home Assistant will guide you through the OAuth login.
 This integration is designed for the official Korea APIs. The vehicle
 data endpoints must be enabled in your developer application.
 
+## Data consent
+
+The Data API requires a separate 개인정보 제공 동의 flow. If you see
+errors like `5005 No Agreement Error` or `4120 Pre-operation is required`,
+complete the consent flow in the developer console or via the consent API
+before using the integration.
+
+## Environments
+
+The official docs list:
+- OAuth2 authorize/token: `prd.kr-ccapi.hyundai.com`
+- Data APIs: `dev.kr-ccapi.hyundai.com`
+
+If your account requires production data endpoints, update `DATA_API_BASE`
+in `const.py`.
+
 ## Entities
 
 ### Sensors
 
 - Odometer
 - Total driving range
-- Fuel level
-- Car battery
 - EV battery (if supported)
-- Air temperature
 - Last updated
 
 ### Binary sensors
 
-- Engine running
-- Hood open
-- Trunk open
+- Low fuel warning
+- Tire pressure warning
+- Lamp wire warning
+- Smart key battery warning
+- Washer fluid warning
+- Brake oil warning
+- Engine oil warning
+- EV battery charging
 
 ### Lock
 

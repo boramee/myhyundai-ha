@@ -4,24 +4,16 @@
     "step": {
       "user": {
         "title": "Connect to MyHyundai",
-        "description": "Enter your MyHyundai account details.",
+        "description": "Select the Application Credentials to use for OAuth2.",
         "data": {
-          "username": "Email",
-          "password": "Password",
-          "pin": "PIN (optional)"
-        }
-      },
-      "vehicle": {
-        "title": "Select vehicle",
-        "data": {
-          "vehicle_id": "Vehicle"
+          "implementation": "Authentication"
         }
       }
     },
     "error": {
-      "auth": "Authentication failed",
-      "otp_required": "OTP is required for this account",
-      "no_vehicles": "No vehicles found on this account",
+      "missing_configuration": "No OAuth configuration found",
+      "missing_credentials": "Missing application credentials",
+      "single_instance_allowed": "Only one instance is allowed",
       "unknown": "Unexpected error"
     }
   },
@@ -33,31 +25,37 @@
       "total_driving_range": {
         "name": "Total driving range"
       },
-      "fuel_level": {
-        "name": "Fuel level"
-      },
-      "car_battery": {
-        "name": "Car battery"
-      },
       "ev_battery": {
         "name": "EV battery"
-      },
-      "air_temperature": {
-        "name": "Air temperature"
       },
       "last_updated": {
         "name": "Last updated"
       }
     },
     "binary_sensor": {
-      "engine_running": {
-        "name": "Engine running"
+      "low_fuel_warning": {
+        "name": "Low fuel warning"
       },
-      "hood_open": {
-        "name": "Hood open"
+      "tire_pressure_warning": {
+        "name": "Tire pressure warning"
       },
-      "trunk_open": {
-        "name": "Trunk open"
+      "lamp_wire_warning": {
+        "name": "Lamp wire warning"
+      },
+      "smart_key_battery_warning": {
+        "name": "Smart key battery warning"
+      },
+      "washer_fluid_warning": {
+        "name": "Washer fluid warning"
+      },
+      "brake_oil_warning": {
+        "name": "Brake oil warning"
+      },
+      "engine_oil_warning": {
+        "name": "Engine oil warning"
+      },
+      "ev_battery_charging": {
+        "name": "EV battery charging"
       }
     },
     "lock": {

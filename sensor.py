@@ -8,7 +8,7 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription,
 )
-from homeassistant.const import PERCENTAGE, UnitOfTemperature
+from homeassistant.const import PERCENTAGE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
@@ -38,31 +38,11 @@ SENSOR_DESCRIPTIONS: tuple[MyHyundaiSensorDescription, ...] = (
         unit_fn=lambda vehicle: vehicle.total_driving_range_unit,
     ),
     MyHyundaiSensorDescription(
-        key="fuel_level",
-        translation_key="fuel_level",
-        native_unit_of_measurement=PERCENTAGE,
-        value_fn=lambda vehicle: vehicle.fuel_level,
-    ),
-    MyHyundaiSensorDescription(
-        key="car_battery_percentage",
-        translation_key="car_battery",
-        device_class=SensorDeviceClass.BATTERY,
-        native_unit_of_measurement=PERCENTAGE,
-        value_fn=lambda vehicle: vehicle.car_battery_percentage,
-    ),
-    MyHyundaiSensorDescription(
         key="ev_battery_percentage",
         translation_key="ev_battery",
         device_class=SensorDeviceClass.BATTERY,
         native_unit_of_measurement=PERCENTAGE,
         value_fn=lambda vehicle: vehicle.ev_battery_percentage,
-    ),
-    MyHyundaiSensorDescription(
-        key="air_temperature",
-        translation_key="air_temperature",
-        device_class=SensorDeviceClass.TEMPERATURE,
-        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
-        value_fn=lambda vehicle: vehicle.air_temperature,
     ),
     MyHyundaiSensorDescription(
         key="last_updated_at",

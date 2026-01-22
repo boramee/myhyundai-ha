@@ -22,22 +22,51 @@ class MyHyundaiBinarySensorDescription(BinarySensorEntityDescription):
 
 BINARY_SENSOR_DESCRIPTIONS: tuple[MyHyundaiBinarySensorDescription, ...] = (
     MyHyundaiBinarySensorDescription(
-        key="engine_is_running",
-        translation_key="engine_running",
-        device_class=BinarySensorDeviceClass.RUNNING,
-        value_fn=lambda vehicle: vehicle.engine_is_running,
+        key="low_fuel_warning",
+        translation_key="low_fuel_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.low_fuel_warning,
     ),
     MyHyundaiBinarySensorDescription(
-        key="hood_is_open",
-        translation_key="hood_open",
-        device_class=BinarySensorDeviceClass.OPENING,
-        value_fn=lambda vehicle: vehicle.hood_is_open,
+        key="tire_pressure_warning",
+        translation_key="tire_pressure_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.tire_pressure_warning,
     ),
     MyHyundaiBinarySensorDescription(
-        key="trunk_is_open",
-        translation_key="trunk_open",
-        device_class=BinarySensorDeviceClass.OPENING,
-        value_fn=lambda vehicle: vehicle.trunk_is_open,
+        key="lamp_wire_warning",
+        translation_key="lamp_wire_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.lamp_wire_warning,
+    ),
+    MyHyundaiBinarySensorDescription(
+        key="smart_key_battery_warning",
+        translation_key="smart_key_battery_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.smart_key_battery_warning,
+    ),
+    MyHyundaiBinarySensorDescription(
+        key="washer_fluid_warning",
+        translation_key="washer_fluid_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.washer_fluid_warning,
+    ),
+    MyHyundaiBinarySensorDescription(
+        key="brake_oil_warning",
+        translation_key="brake_oil_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.brake_oil_warning,
+    ),
+    MyHyundaiBinarySensorDescription(
+        key="engine_oil_warning",
+        translation_key="engine_oil_warning",
+        device_class=BinarySensorDeviceClass.PROBLEM,
+        value_fn=lambda vehicle: vehicle.engine_oil_warning,
+    ),
+    MyHyundaiBinarySensorDescription(
+        key="ev_battery_is_charging",
+        translation_key="ev_battery_charging",
+        value_fn=lambda vehicle: vehicle.ev_battery_is_charging,
     ),
 )
 
