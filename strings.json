@@ -20,6 +20,7 @@
     "error": {
       "missing_configuration": "No OAuth configuration found",
       "missing_credentials": "Missing application credentials",
+      "missing_brand_credentials": "No credentials found for selected brand",
       "brand_already_configured": "This brand is already configured",
       "unknown": "Unexpected error"
     }

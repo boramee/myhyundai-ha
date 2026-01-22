@@ -25,10 +25,28 @@ class MyHyundaiConfigFlow(config_entry_oauth2_flow.AbstractOAuth2FlowHandler, do
         return _LOGGER
 
     async def async_step_user(self, user_input=None):
+        schema = vol.Schema({vol.Required(CONF_BRAND): vol.In(BRANDS)})
         if user_input is None:
-            schema = vol.Schema({vol.Required(CONF_BRAND): vol.In(BRANDS)})
             return self.async_show_form(step_id="user", data_schema=schema)
         self._brand = user_input[CONF_BRAND]
+
+        implementations = await config_entry_oauth2_flow.async_get_implementations(
+            self.hass, self.DOMAIN
+        )
+        implementations = {
+            key: impl
+            for key, impl in implementations.items()
+            if getattr(impl, "brand", None) == self._brand
+        }
+        if not implementations:
+            if self.DOMAIN in await async_get_application_credentials(self.hass):
+                return self.async_show_form(
+                    step_id="user",
+                    data_schema=schema,
+                    errors={"base": "missing_brand_credentials"},
+                )
+            return self.async_abort(reason="missing_configuration")
+
         return await self.async_step_pick_implementation()
 
     async def async_step_pick_implementation(self, user_input=None):
