@@ -1,10 +1,10 @@
 {
   "domain": "myhyundai",
   "name": "MyHyundai (Unofficial)",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "documentation": "https://github.com/boramee/myhyundai-ha",
-  "requirements": ["hyundai-kia-connect-api==4.3.11"],
   "codeowners": [],
   "config_flow": true,
+  "dependencies": ["application_credentials"],
   "iot_class": "cloud_polling"
 }

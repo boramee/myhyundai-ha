@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import logging
+
 from homeassistant.components.lock import LockEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import CONF_VEHICLE_ID, DOMAIN
+from .const import DOMAIN
 from .entity import MyHyundaiEntity
+
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -14,8 +18,13 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     coordinator = hass.data[DOMAIN][entry.entry_id]
-    vehicle_id = entry.data[CONF_VEHICLE_ID]
-    async_add_entities([MyHyundaiDoorLock(coordinator, vehicle_id)])
+    if not coordinator.supports_remote_actions:
+        _LOGGER.warning("Remote control API not configured; skipping lock entities.")
+        return
+    vehicles = (coordinator.data or {}).values()
+    async_add_entities(
+        [MyHyundaiDoorLock(coordinator, vehicle.id) for vehicle in vehicles]
+    )
 
 
 class MyHyundaiDoorLock(MyHyundaiEntity, LockEntity):

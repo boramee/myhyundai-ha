@@ -1,14 +1,14 @@
 # MyHyundai (unofficial) Home Assistant integration
 
-This is a minimal custom integration that uses the
-`hyundai-kia-connect-api` library to read vehicle status and trigger
-remote start.
+This is a minimal custom integration that uses the official
+MyHyundai OAuth2 APIs to authenticate and read vehicle data.
 
 ## Requirements
 
-- MyHyundai (Korea) account with username/password login
+- MyHyundai (Korea) account
+- Approved MyHyundai developer application (Client ID/Secret)
 - Home Assistant with custom component support
-- OTP/2FA accounts are not supported in this version
+- External URL configured for OAuth callback
 
 ## Install (git clone into custom_components)
 
@@ -27,21 +27,19 @@ Then restart Home Assistant.
 
 ## Setup
 
-1. Go to **Settings → Devices & Services → Add Integration** and search
-   for **MyHyundai**.
-2. Enter your MyHyundai email and password.
-3. If your account requires a vehicle PIN for remote commands, enter it
-   during setup.
+1. Configure the OAuth Redirect URL in the MyHyundai developer console:
+   `https://<your-ha-domain>/auth/external/callback`
+2. In Home Assistant, add **Application Credentials** for MyHyundai:
+   **Settings → Devices & Services → Application Credentials → Add**
+3. Add the **MyHyundai** integration:
+   **Settings → Devices & Services → Add Integration**
 
-If you have more than one vehicle, the setup will prompt you to select
-which vehicle to add.
+Home Assistant will guide you through the OAuth login.
 
 ## Notes for Korea (MyHyundai)
 
-The `hyundai-kia-connect-api` library does not expose a dedicated Korea
-region selector. This integration uses the library's "India" region as a
-fallback because the API endpoints are compatible for some accounts.
-If login fails, the library may not currently support your account.
+This integration is designed for the official Korea APIs. The vehicle
+data endpoints must be enabled in your developer application.
 
 ## Entities
 
@@ -63,14 +61,8 @@ If login fails, the library may not currently support your account.
 
 ### Lock
 
-- Door lock (lock/unlock)
+- Door lock (lock/unlock) — requires remote control APIs
 
 ### Buttons
 
-- Remote start
-- Remote stop
-
-## Remote start defaults
-
-Remote start uses the API defaults for temperature and duration. If you
-need to change defaults, edit constants in `const.py`.
+- Remote start/stop — requires remote control APIs

@@ -12,7 +12,7 @@ from homeassistant.const import PERCENTAGE, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import CONF_VEHICLE_ID, DOMAIN
+from .const import DOMAIN
 from .entity import MyHyundaiEntity
 
 
@@ -79,10 +79,11 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     coordinator = hass.data[DOMAIN][entry.entry_id]
-    vehicle_id = entry.data[CONF_VEHICLE_ID]
+    vehicles = (coordinator.data or {}).values()
     async_add_entities(
         [
-            MyHyundaiSensorEntity(coordinator, vehicle_id, description)
+            MyHyundaiSensorEntity(coordinator, vehicle.id, description)
+            for vehicle in vehicles
             for description in SENSOR_DESCRIPTIONS
         ]
     )
