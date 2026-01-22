@@ -7,7 +7,11 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_entry_oauth2_flow
 from homeassistant.util import dt as dt_util
 
-from .const import DATA_API_BASE, USER_API_BASE
+from .const import (
+    BRAND_GENESIS,
+    DATA_API_BASE_GENESIS,
+    DATA_API_BASE_HYUNDAI,
+)
 from .models import MyHyundaiVehicle
 
 _LOGGER = logging.getLogger(__name__)
@@ -30,8 +34,17 @@ ALLOW_STATUS_CODES = ALLOW_NO_DATA_CODES | {"4006"}
 
 
 class MyHyundaiApi:
-    def __init__(self) -> None:
+    def __init__(self, brand: str) -> None:
         self.supports_remote_actions = False
+        if brand == BRAND_GENESIS:
+            self._data_api_base = DATA_API_BASE_GENESIS
+        else:
+            self._data_api_base = DATA_API_BASE_HYUNDAI
+
+        if not self._data_api_base:
+            raise HomeAssistantError(
+                "Data API base URL is not configured for this brand."
+            )
 
     async def async_get_vehicles(
         self, session: config_entry_oauth2_flow.OAuth2Session
@@ -39,7 +52,7 @@ class MyHyundaiApi:
         carlist = await self._request_json(
             session,
             "GET",
-            f"{DATA_API_BASE}/car/profile/carlist",
+            f"{self._data_api_base}/car/profile/carlist",
             allow_error_codes=ALLOW_NO_DATA_CODES,
         )
         if not carlist or "cars" not in carlist:
@@ -71,7 +84,7 @@ class MyHyundaiApi:
         dte = await self._request_json(
             session,
             "GET",
-            f"{DATA_API_BASE}/car/status/{vehicle.id}/dte",
+            f"{self._data_api_base}/car/status/{vehicle.id}/dte",
             allow_error_codes=ALLOW_STATUS_CODES,
         )
         if dte:
@@ -82,7 +95,7 @@ class MyHyundaiApi:
         odometer = await self._request_json(
             session,
             "GET",
-            f"{DATA_API_BASE}/car/status/{vehicle.id}/odometer",
+            f"{self._data_api_base}/car/status/{vehicle.id}/odometer",
             allow_error_codes=ALLOW_STATUS_CODES,
         )
         if odometer:
@@ -97,7 +110,7 @@ class MyHyundaiApi:
             battery = await self._request_json(
                 session,
                 "GET",
-                f"{DATA_API_BASE}/car/status/{vehicle.id}/ev/battery",
+                f"{self._data_api_base}/car/status/{vehicle.id}/ev/battery",
                 allow_error_codes=ALLOW_STATUS_CODES,
             )
             if battery:
@@ -107,7 +120,7 @@ class MyHyundaiApi:
             charging = await self._request_json(
                 session,
                 "GET",
-                f"{DATA_API_BASE}/car/status/{vehicle.id}/ev/charging",
+                f"{self._data_api_base}/car/status/{vehicle.id}/ev/charging",
                 allow_error_codes=ALLOW_STATUS_CODES,
             )
             if charging:
@@ -145,7 +158,7 @@ class MyHyundaiApi:
         data = await self._request_json(
             session,
             "GET",
-            f"{DATA_API_BASE}/car/status/warning/{vehicle_id}/{name}",
+            f"{self._data_api_base}/car/status/warning/{vehicle_id}/{name}",
             allow_error_codes=ALLOW_STATUS_CODES,
         )
         if not data:

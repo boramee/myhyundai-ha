@@ -3,7 +3,14 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect to MyHyundai",
+        "title": "Select brand",
+        "description": "Choose the brand for this connection.",
+        "data": {
+          "brand": "Brand"
+        }
+      },
+      "pick_implementation": {
+        "title": "Select authentication",
         "description": "Select the Application Credentials to use for OAuth2.",
         "data": {
           "implementation": "Authentication"
@@ -13,7 +20,7 @@
     "error": {
       "missing_configuration": "No OAuth configuration found",
       "missing_credentials": "Missing application credentials",
-      "single_instance_allowed": "Only one instance is allowed",
+      "brand_already_configured": "This brand is already configured",
       "unknown": "Unexpected error"
     }
   },

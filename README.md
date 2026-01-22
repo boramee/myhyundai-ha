@@ -27,17 +27,20 @@ Then restart Home Assistant.
 
 ## Setup
 
-1. Configure the OAuth Redirect URL in the MyHyundai developer console:
+1. Configure the OAuth Redirect URL in the developer console:
    `https://<your-ha-domain>/auth/external/callback`
 2. Configure the Data API Redirect URL for consent callbacks (same base is OK).
-2. In Home Assistant, add **Application Credentials** for MyHyundai:
+3. In Home Assistant, add **Application Credentials**:
    **Settings → Devices & Services → Application Credentials → Add**
-3. Add the **MyHyundai** integration:
+   - Create one for Hyundai (name it "Hyundai")
+   - Create one for Genesis (name it "Genesis")
+4. Add the **MyHyundai** integration:
    **Settings → Devices & Services → Add Integration**
+   - Select the brand, then choose the matching credentials
 
 Home Assistant will guide you through the OAuth login.
 
-## Notes for Korea (MyHyundai)
+## Notes for Korea (MyHyundai/Genesis)
 
 This integration is designed for the official Korea APIs. The vehicle
 data endpoints must be enabled in your developer application.
@@ -53,7 +56,8 @@ before using the integration.
 
 The official docs list:
 - OAuth2 authorize/token: `prd.kr-ccapi.hyundai.com`
-- Data APIs: `dev.kr-ccapi.hyundai.com`
+- Hyundai Data APIs: `dev.kr-ccapi.hyundai.com`
+- Genesis Data APIs: configure `DATA_API_BASE_GENESIS` once provided
 
 If your account requires production data endpoints, update `DATA_API_BASE`
 in `const.py`.

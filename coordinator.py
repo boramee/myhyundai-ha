@@ -10,7 +10,7 @@ from homeassistant.helpers import config_entry_oauth2_flow
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import MyHyundaiApi
-from .const import DEFAULT_UPDATE_INTERVAL
+from .const import BRAND_HYUNDAI, CONF_BRAND, DEFAULT_UPDATE_INTERVAL
 from .models import MyHyundaiVehicle
 
 _LOGGER = logging.getLogger(__name__)
@@ -26,7 +26,8 @@ class MyHyundaiCoordinator(DataUpdateCoordinator[dict[str, MyHyundaiVehicle]]):
         )
         self.entry = entry
         self._session: config_entry_oauth2_flow.OAuth2Session | None = None
-        self.api = MyHyundaiApi()
+        brand = entry.data.get(CONF_BRAND, BRAND_HYUNDAI)
+        self.api = MyHyundaiApi(brand)
 
     async def _async_get_session(self) -> config_entry_oauth2_flow.OAuth2Session:
         if self._session is None:
