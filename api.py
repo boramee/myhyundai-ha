@@ -184,6 +184,7 @@ class MyHyundaiApi:
             hint = CONSENT_REQUIRED_CODES.get(err_code)
             if hint:
                 err_msg = f"{err_msg} ({hint})"
+            _LOGGER.error("API error %s for %s: %s", err_code, url, err_msg)
             raise HomeAssistantError(f"{err_code}: {err_msg}")
         return data
 
