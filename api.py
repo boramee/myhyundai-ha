@@ -26,6 +26,7 @@ CONSENT_REQUIRED_CODES = {
 }
 
 ALLOW_NO_DATA_CODES = {"4045", "4046"}
+ALLOW_STATUS_CODES = ALLOW_NO_DATA_CODES | {"4006"}
 
 
 class MyHyundaiApi:
@@ -70,7 +71,7 @@ class MyHyundaiApi:
             session,
             "GET",
             f"{DATA_API_BASE}/car/status/{vehicle.id}/dte",
-            allow_error_codes=ALLOW_NO_DATA_CODES,
+            allow_error_codes=ALLOW_STATUS_CODES,
         )
         if dte:
             vehicle.total_driving_range = dte.get("value")
@@ -81,7 +82,7 @@ class MyHyundaiApi:
             session,
             "GET",
             f"{DATA_API_BASE}/car/status/{vehicle.id}/odometer",
-            allow_error_codes=ALLOW_NO_DATA_CODES,
+            allow_error_codes=ALLOW_STATUS_CODES,
         )
         if odometer:
             entries = odometer.get("odometers", [])
@@ -96,7 +97,7 @@ class MyHyundaiApi:
                 session,
                 "GET",
                 f"{DATA_API_BASE}/car/status/{vehicle.id}/ev/battery",
-                allow_error_codes=ALLOW_NO_DATA_CODES,
+                allow_error_codes=ALLOW_STATUS_CODES,
             )
             if battery:
                 vehicle.ev_battery_percentage = battery.get("soc")
@@ -106,7 +107,7 @@ class MyHyundaiApi:
                 session,
                 "GET",
                 f"{DATA_API_BASE}/car/status/{vehicle.id}/ev/charging",
-                allow_error_codes=ALLOW_NO_DATA_CODES,
+                allow_error_codes=ALLOW_STATUS_CODES,
             )
             if charging:
                 vehicle.ev_battery_is_charging = charging.get("batteryCharge")
@@ -144,7 +145,7 @@ class MyHyundaiApi:
             session,
             "GET",
             f"{DATA_API_BASE}/car/status/warning/{vehicle_id}/{name}",
-            allow_error_codes=ALLOW_NO_DATA_CODES,
+            allow_error_codes=ALLOW_STATUS_CODES,
         )
         if not data:
             return None
