@@ -35,6 +35,6 @@ OAUTH2_GENESIS_TOKEN_URL = (
 USER_API_BASE_HYUNDAI = "https://prd.kr-ccapi.hyundai.com/api/v1"
 USER_API_BASE_GENESIS = "https://prd-kr-ccapi.genesis.com:8081/api/v1"
 DATA_API_BASE_HYUNDAI = "https://dev.kr-ccapi.hyundai.com/api/v1"
-DATA_API_BASE_GENESIS = ""
+DATA_API_BASE_GENESIS = "https://dev-kr-ccapi.genesis.com:8081/api/v1"
 
 MANUFACTURER = "Hyundai"
